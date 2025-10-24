@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Preferencia de Notas</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #ffe6f2;
+    color: #333;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    background-color: #ffb6c1;
+    color: white;
+    padding: 15px 0;
+    margin-bottom: 20px;
+  }
+  .contenedor {
+    width: 90%;
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  }
+  input {
+    padding: 8px;
+    margin: 5px;
+    width: 100px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  button {
+    background-color: #ff69b4;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 10px 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  button:hover {
+    background-color: #ff85c1;
+  }
+  table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #ffb6c1;
+    padding: 8px;
+  }
+  th {
+    background-color: #ffe6ef;
+  }
+  .promedio {
+    font-weight: bold;
+    margin-top: 15px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Calculadora de Preferencia de Notas 💖</h1>
+
+<div class="contenedor">
+  <label>Materia:</label>
+  <input type="text" id="materia" placeholder="Ej. Matemáticas">
+  <label>Nota:</label>
+  <input type="number" id="nota" placeholder="Ej. 8.5" min="0" max="10" step="0.01">
+  <br>
+  <button onclick="agregarNota()">Agregar Nota</button>
+  <button onclick="calcularPromedio()">Calcular Promedio</button>
+
+  <table id="tablaNotas">
+    <thead>
+      <tr>
+        <th>Materia</th>
+        <th>Nota</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <p class="promedio" id="promedioTexto">Promedio: --</p>
+</div>
+
+<script>
+  const notas = [];
+
+  function agregarNota() {
+    const materia = document.getElementById("materia").value.trim();
+    const nota = parseFloat(document.getElementById("nota").value);
+
+    if (materia === "" || isNaN(nota)) {
+      alert("Por favor ingresa una materia y una nota válida.");
+      return;
+    }
+
+    notas.push({ materia, nota });
+
+    const tabla = document.getElementById("tablaNotas").querySelector("tbody");
+    const fila = document.createElement("tr");
+    fila.innerHTML = `<td>${materia}</td><td>${nota.toFixed(2)}</td>`;
+    tabla.appendChild(fila);
+
+    document.getElementById("materia").value = "";
+    document.getElementById("nota").value = "";
+  }
+
+  function calcularPromedio() {
+    if (notas.length === 0) {
+      alert("No hay notas registradas.");
+      return;
+    }
+
+    const suma = notas.reduce((total, item) => total + item.nota, 0);
+    const promedio = suma / notas.length;
+
+    document.getElementById("promedioTexto").textContent = 
+      `Promedio: ${promedio.toFixed(2)}`;
+  }
+</script>
+
+</body>
+</html>
